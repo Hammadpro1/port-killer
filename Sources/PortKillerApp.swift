@@ -19,8 +19,9 @@ struct PortKillerApp: App {
     }
 
     private func menuBarIcon() -> NSImage {
-        if let image = loadIcon(named: "ToolbarIcon") {
-            image.size = NSSize(width: 18, height: 18)
+        // Load @2x version for crisp Retina display
+        if let image = loadIcon(named: "ToolbarIcon@2x") {
+            image.size = NSSize(width: 18, height: 18)  // Logical size, not pixel size
             return image
         }
         return NSImage(systemSymbolName: "network.slash", accessibilityDescription: nil) ?? NSImage()
