@@ -218,11 +218,16 @@ jobs:
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
         run: |
-          VERSION="${GITHUB_REF_NAME#v}"  # Remove 'v' prefix
+          VERSION="${GITHUB_REF_NAME#v}"  # Remove 'v' prefix (v1.2.7 -> 1.2.7)
+          BUILD_NUMBER=$(git rev-list --count HEAD)  # Same as CFBundleVersion in app
           DMG_SIZE=$(stat -f%z "$DMG_NAME")
           DMG_URL="https://github.com/productdevbook/port-killer/releases/download/${GITHUB_REF_NAME}/${DMG_NAME}"
 
+          echo "Version: $VERSION, Build: $BUILD_NUMBER"
+
           # Create or update appcast.xml
+          # sparkle:version must match CFBundleVersion (build number)
+          # sparkle:shortVersionString must match CFBundleShortVersionString (marketing version)
           cat > appcast.xml << 'APPCAST_EOF'
           <?xml version="1.0" encoding="utf-8"?>
           <rss version="2.0" xmlns:sparkle="http://www.andymatuschak.org/xml-namespaces/sparkle" xmlns:dc="http://purl.org/dc/elements/1.1/">
@@ -234,7 +239,7 @@ jobs:
               <item>
                 <title>Version VERSIONPLACEHOLDER</title>
                 <pubDate>DATEPLACEHOLDER</pubDate>
-                <sparkle:version>VERSIONPLACEHOLDER</sparkle:version>
+                <sparkle:version>BUILDPLACEHOLDER</sparkle:version>
                 <sparkle:shortVersionString>VERSIONPLACEHOLDER</sparkle:shortVersionString>
                 <sparkle:minimumSystemVersion>15.0</sparkle:minimumSystemVersion>
                 <enclosure
@@ -248,6 +253,7 @@ jobs:
           APPCAST_EOF
 
           # Replace placeholders
+          sed -i '' "s|BUILDPLACEHOLDER|${BUILD_NUMBER}|g" appcast.xml
           sed -i '' "s|VERSIONPLACEHOLDER|${VERSION}|g" appcast.xml
           sed -i '' "s|DATEPLACEHOLDER|$(date -R)|g" appcast.xml
           sed -i '' "s|URLPLACEHOLDER|${DMG_URL}|g" appcast.xml
