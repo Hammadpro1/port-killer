@@ -18,6 +18,7 @@ echo "📦 Creating app bundle..."
 rm -rf "$APP_DIR"
 mkdir -p "$MACOS_DIR"
 mkdir -p "$RESOURCES_DIR"
+mkdir -p "$CONTENTS_DIR/Frameworks"
 
 echo "📋 Copying files..."
 cp "$BUILD_DIR/$APP_NAME" "$MACOS_DIR/"
@@ -31,6 +32,17 @@ fi
 # Copy SPM resource bundle (contains toolbar icons)
 if [ -d "$BUILD_DIR/PortKiller_PortKiller.bundle" ]; then
     cp -r "$BUILD_DIR/PortKiller_PortKiller.bundle" "$RESOURCES_DIR/"
+fi
+
+# Copy Sparkle framework
+SPARKLE_FRAMEWORK=".build/arm64-apple-macosx/release/Sparkle.framework"
+if [ -d "$SPARKLE_FRAMEWORK" ]; then
+    echo "📦 Copying Sparkle.framework..."
+    cp -R "$SPARKLE_FRAMEWORK" "$CONTENTS_DIR/Frameworks/"
+
+    # Add rpath so executable can find the framework
+    echo "🔗 Setting up framework path..."
+    install_name_tool -add_rpath "@executable_path/../Frameworks" "$MACOS_DIR/$APP_NAME" 2>/dev/null || true
 fi
 
 echo "🔏 Signing app bundle..."
