@@ -1,5 +1,6 @@
 import Foundation
 import Sparkle
+import AppKit
 
 @MainActor
 final class UpdateManager: NSObject, ObservableObject {
@@ -34,6 +35,8 @@ final class UpdateManager: NSObject, ObservableObject {
     }
 
     func checkForUpdates() {
+        // Activate app to ensure Sparkle window appears in front
+        NSApp.activate(ignoringOtherApps: true)
         updaterController.checkForUpdates(nil)
     }
 }
