@@ -111,10 +111,11 @@ for ks_file in .build/checkouts/KeyboardShortcuts/Sources/KeyboardShortcuts/*.sw
     fi
 done
 
-# Clean and rebuild with patched sources
-echo "🧹 Cleaning build artifacts..."
-rm -rf .build/*/release/*.build
-rm -rf .build/*/release/PortKiller
+# Clean only KeyboardShortcuts module (which we patched) to force recompilation
+# Don't clean other modules - they need their DerivedSources intact
+echo "🧹 Cleaning KeyboardShortcuts build artifacts..."
+rm -rf .build/*/release/KeyboardShortcuts.build
+rm -f .build/*/release/PortKiller
 rm -rf .build/*/release/*.bundle
 
 echo "🔨 Building release binary with patched sources..."
