@@ -12,8 +12,8 @@
 </p>
 
 <p align="center">
-A native app for finding and killing processes on open ports.<br>
-Perfect for developers who need to quickly free up ports like 3000, 8080, 5173, etc.
+A powerful cross-platform port management tool for developers.<br>
+Monitor ports, manage Kubernetes port forwards, integrate Cloudflare Tunnels, and kill processes with one click.
 </p>
 
 ### macOS
@@ -45,15 +45,29 @@ Download `.zip` from [GitHub Releases](https://github.com/productdevbook/port-ki
 
 ## Features
 
-- 📍 Menu bar integration (macOS) / System tray (Windows)
-- 🔍 Auto-discovers listening TCP ports
-- ⚡ One-click process termination
-- 🔄 Auto-refresh
-- 🔎 Search by port or process name
-- ⭐ Favorites and watched ports
-- 📂 Process type categorization (Web Server, Database, Development, System)
-- 🔗 Port forwarding management (Kubernetes kubectl)
-- ☁️ Cloudflare Tunnels integration
+### Port Management
+- 🔍 Auto-discovers all listening TCP ports
+- ⚡ One-click process termination (graceful + force kill)
+- 🔄 Auto-refresh with configurable interval
+- 🔎 Search and filter by port number or process name
+- ⭐ Favorites for quick access to important ports
+- 👁️ Watched ports with notifications
+- 📂 Smart categorization (Web Server, Database, Development, System)
+
+### Kubernetes Port Forwarding
+- 🔗 Create and manage kubectl port-forward sessions
+- 🔌 Auto-reconnect on connection loss
+- 📝 Connection logs and status monitoring
+- 🔔 Notifications on connect/disconnect
+
+### Cloudflare Tunnels
+- ☁️ View and manage active Cloudflare Tunnel connections
+- 🌐 Quick access to tunnel status
+
+### Cross-Platform
+- 📍 Menu bar integration (macOS)
+- 🖥️ System tray app (Windows)
+- 🎨 Native UI for each platform
 
 ## Contributing
 
